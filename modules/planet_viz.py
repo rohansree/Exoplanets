@@ -92,7 +92,7 @@ class Planet_Viz:
         fig.update_scenes(aspectmode='cube')
         fig.show()
 
-    def __calc_radii_lst(max_dist = 1500, vol = 20000000, start = 0):
+    def __calc_radii_lst(self, max_dist : int = 1500, vol : int = 20000000, start : int = 0):
         ''' 
         Helper function for equivolume_bins_histogram
 
@@ -107,18 +107,20 @@ class Planet_Viz:
 
         radii_lst = [start]
         r_prev = radii_lst[-1]
+        print(max_dist)
         while r_prev < max_dist-1:
             radii_lst.append((vol+r_prev**3)**(1./3.))
             r_prev = radii_lst[-1]
         return radii_lst
 
-    def equivolume_bins_histogram(self, rad_start : int = 400 , vol : int = 20000000) -> go.Figure:
+    def equivolume_bins_histogram(self, rad_start : int = 400 , vol : int = 20000000, max_dist : int = 1500) -> go.Figure:
         '''
         The equivolume bins histogram visualization of Planet_Viz class.
 
         Parameters:
             rad_start (int): the starting radius from earth of the histogram, default is 400
             vol (int): the volume of each bin, default is 20000000
+            max_dist (int): the maximum distance from earth, default is 1500
 
         Returns:
             fig: The equivolume bins histogram figure of the dataframe
@@ -127,7 +129,7 @@ class Planet_Viz:
         assert vol > 0, "vol must be greater than 0"
 
         #create a list of radii with adjacent pairs having a volume of vol
-        bins1 = self.__calc_radii_lst(start = rad_start, vol = vol)
+        bins1 = self.__calc_radii_lst(start = rad_start, vol = vol, max_dist = max_dist)
 
         #create a list of bins with the same width as the radii list
         counts, bins2 = np.histogram(self.df_loc.sy_dist, bins=bins1)
@@ -157,7 +159,7 @@ class Planet_Viz:
                      "sy_dist": "Distance from Earth (parsec)",
                      "disc_year": "Discovered Year",
                      "discoverymethod": "Method of Discovery"
-                 }, template = self.theme)
+                 }, template = self.theme, title='Distance from Earth vs. Discovered Year by Method of Discovery')
         fig.show()
 
     def planet_yr_method_hist(self, cumulative : bool = True):
@@ -174,7 +176,7 @@ class Planet_Viz:
         fig = px.histogram(self.df_loc, x='disc_year', cumulative=cumulative, color = 'discoverymethod', labels={
                      "disc_year": "Discovered Year",
                      "discoverymethod": "Method of Discovery"
-                 }, template = 'plotly_dark').update_layout(yaxis_title = "Number of Planets")
+                 }, template = 'plotly_dark', title=f'Histogram of Planet Counts by Year with Discovery Method (Cumulative = {cumulative})').update_layout(yaxis_title = "Number of Planets")
         fig.show()
 
 
