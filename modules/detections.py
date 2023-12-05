@@ -32,7 +32,7 @@ def read_data():
 
     #df stands for DataFrame
 
-    df = pd.read_csv('NASA_planetary_data.csv', skiprows = 168)
+    df = pd.read_csv('data/NASA_planetary_data.csv', skiprows = 168)
     
     #to see what the data looks like
     # print(df.head())
