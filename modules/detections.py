@@ -5,14 +5,24 @@ import matplotlib.pyplot as plt
 
 def read_data():
     """
-    @param none
-    @return none
 
     Read and format dataframe from .csv file and call the visualization method,
     passing the formatted dataframe to it
 
     This function is separated because detections are only part of the dataset, 
     and the csv will only need to be read once.
+
+    Args:
+        None
+    Returns:
+        None
+
+
+    Examples:
+        A simple example of how to use this function is:
+
+            >>> read_data()
+    
     """
 
     #only necessary on google colab
@@ -118,4 +128,4 @@ def detection_plot_single(df, flag, name):
     plt.show()
 
 
-read_data()
+#read_data()
