@@ -45,20 +45,28 @@ class Planet_Viz:
         '''
         return self.df_loc.head()
 
-    def interative_planet_viz(self) -> go.Figure:
+    def interative_planet_viz(self, dist_limit : int = 1000) -> go.Figure:
         '''
         The interactive visualization of Planet_Viz class.
+
+        Parameters:
+            dist_limit (int): the distance limit of the visualization, default is 1000
 
         Returns:
             fig: The interactive figure of the dataframe
         
         '''
-        
-        df_loc_mod = self.df_loc[self.df_loc['sy_dist'] < 1000].copy()
+
+        assert dist_limit > 0, "dist_limit must be greater than 0"
+
+        #create a new modified dataframe with distance limit and the earth at the origin
+        df_loc_mod = self.df_loc[self.df_loc['sy_dist'] < dist_limit].copy()
         df_loc_mod = pd.concat([pd.DataFrame([['earth', 0, 0, 0, 0, 0, 0, 0, 0]], columns=df_loc_mod.columns), df_loc_mod], ignore_index=True)
 
         column_list = list(df_loc_mod.columns) + ['cum_year']
 
+
+        #make a new dataframe with the cumulative year
         data = []
 
         for i in range(1992, 2024):
@@ -67,21 +75,36 @@ class Planet_Viz:
             data += tmp.values.tolist()
 
         df_new = pd.DataFrame(data, columns = column_list)
+
+        #create a color map for the discovery year
         n_colors = 2024-1992
         colors = px.colors.sample_colorscale("sunset", [n/(n_colors -1) for n in range(n_colors)])
         color_map = { str(i+1992) : x for i,x in enumerate(colors)} | { str(0) : 'blue'}
+
+        #convert the discovery year to string for the color map
         df_new['disc_year'] = df_new["disc_year"].astype(str)
-        df_new = pd.concat([pd.DataFrame([['x'+str(i), str(i), 0, 0, 0, 2000, 0, 0, 1992, str(1992)] for i in range(1992, 2024)], columns=df_new.columns), df_new], ignore_index=True)
 
+        #concat a new dataframe with empty values and away from the x,y,z limits to add years to the legend
+        df_new = pd.concat([pd.DataFrame([['x'+str(i), str(i), 0, 0, 0, dist_limit*1.1, 0, 0, 1992, str(1992)] for i in range(1992, 2024)], columns=df_new.columns), df_new], ignore_index=True)
 
-        fig = px.scatter_3d(df_new, x='x', y='y', z='z', color='disc_year', hover_name='pl_name', hover_data = {k : k in ['x', 'y', 'z'] for k in df_new.columns}, animation_frame= 'cum_year',color_discrete_map=color_map, range_x=[-1000, 1000], range_y = [-1000, 1000], range_z = [-1000, 1000], labels={'disc_year':'Discovery Year', 'cum_year':'Planets Discovered Till'}, template = self.theme)
+        #plotly figure
+        fig = px.scatter_3d(df_new, x='x', y='y', z='z', color='disc_year', hover_name='pl_name', hover_data = {k : k in ['x', 'y', 'z'] for k in df_new.columns}, animation_frame= 'cum_year',color_discrete_map=color_map, range_x=[-dist_limit, dist_limit], range_y = [-dist_limit, dist_limit], range_z = [-dist_limit, dist_limit], labels={'disc_year':'Discovery Year', 'cum_year':'Planets Discovered Till'}, template = self.theme)
         fig.update_scenes(aspectmode='cube')
         fig.show()
 
     def __calc_radii_lst(max_dist = 1500, vol = 20000000, start = 0):
         ''' 
         Helper function for equivolume_bins_histogram
+
+        Parameters:
+            max_dist (int): the maximum distance from earth
+            vol (int): the volume of each bin
+            start (int): the starting radius from earth of the histogram
+        
+        Returns:
+            radii_lst (list): A list of radii with adjacent pairs having a volume of vol
         '''
+
         radii_lst = [start]
         r_prev = radii_lst[-1]
         while r_prev < max_dist-1:
@@ -102,20 +125,22 @@ class Planet_Viz:
         '''
         assert rad_start > 0, "rad_start must be greater than 0"
         assert vol > 0, "vol must be greater than 0"
+
+        #create a list of radii with adjacent pairs having a volume of vol
         bins1 = self.__calc_radii_lst(start = rad_start, vol = vol)
+
+        #create a list of bins with the same width as the radii list
         counts, bins2 = np.histogram(self.df_loc.sy_dist, bins=bins1)
         bins2 = 0.5 * (bins1[:-1] + bins2[1:])
 
-        # specify sensible widths
+        #create a list of widths for the histogram
         widths = []
         for i, b1 in enumerate(bins1[1:]):
             widths.append((b1-bins2[i])*2)
 
-        # plotly figure
-        fig = go.Figure(go.Bar(
-            x=bins2,
-            y=counts,
-            width=widths)).update_layout(title = 'Histogram of Exoplanets Discovered for Equivolume Bins', xaxis_title = "Distance from Earth (parsec)",  yaxis_title = "Number of Planets", template = self.theme)
+        #plotly figure
+        fig = go.Figure(go.Bar(x=bins2,y=counts,width=widths))\
+            .update_layout(title = 'Histogram of Exoplanets Discovered for Equivolume Bins', xaxis_title = "Distance from Earth (parsec)",  yaxis_title = "Number of Planets", template = self.theme)
 
         fig.show()
 

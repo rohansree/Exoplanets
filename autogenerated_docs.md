@@ -95,9 +95,11 @@ The equivolume bins histogram visualization of Planet_Viz class.
 * **Return type:**
   fig
 
-#### interative_planet_viz()
+#### interative_planet_viz(dist_limit: int = 1000)
 
 The interactive visualization of Planet_Viz class.
+* **Parameters:**
+  **dist_limit** (*int*) – the distance limit of the visualization, default is 1000
 * **Returns:**
   The interactive figure of the dataframe
 * **Return type:**
