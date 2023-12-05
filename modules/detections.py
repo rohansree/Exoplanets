@@ -44,8 +44,10 @@ def read_data():
 
 def detection_vis(df):
     """
-    @param df: the exoplanet dataframe to be visualized
-    @return none
+    Args:
+        df: the exoplanet dataframe to be visualized
+    Returns:
+        None
 
     Given the dataframe of exoplanets, 
     break it down and visualize each detection category.
@@ -94,11 +96,13 @@ def detection_vis(df):
 
 def detection_plot_single(df, flag, name):
     """
-    @param df: dataframe containing the detections dataset
-    @param flag: the specific category of detections to visualize
-    @param name: the longform name of flag, to be used for plot title and legend
+    Args:
+        df: dataframe containing the detections dataset
+        flag: the specific category of detections to visualize
+        name: the longform name of flag, to be used for plot title and legend
 
-    @return none
+    Returns:
+        None
 
     Used to visualize individual, single columns of the detections dataset.
     """
