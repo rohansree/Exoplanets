@@ -1,2 +1,10 @@
 # Exoplanets
-Fall 2023 ECE 143 Group 18 
+Group 18, ECE 143 Fall 2023
+
+Group Members:
+
+* Anand
+* Atharva
+* Colin
+* Rohan
+* Wang
