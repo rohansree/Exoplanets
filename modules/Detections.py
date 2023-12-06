@@ -108,8 +108,6 @@ class Detections:
 
             name = cat_names[idx]
             self.detection_plot_single(flag, name)
-
-            print(idx)
             
 
 
