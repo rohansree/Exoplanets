@@ -1,6 +1,4 @@
-import time
 import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
 
 class Detections:
@@ -10,6 +8,16 @@ class Detections:
     Attributes:
         df (DataFrame): the exoplanet dataframe to be visualized
         
+    Example:
+        A simple example of how to use this class is:
+            
+            >>> from modules.Detections import Detections
+            >>> d = Detections('data/NASA_planetary_data.csv')
+            >>> d.detection_vis_combined()
+            >>> d.detection_vis_combined(remove_transit = True)
+            >>> d.detection_vis_separate()
+
+    
 
     '''
     def __init__(self, df_location):
@@ -23,17 +31,49 @@ class Detections:
         # df = pd.read_csv('NASA_planetary_data.csv', skiprows = 168)
 
 
-    def detection_vis(self):
-        """
+    def detection_vis_combined(self, remove_transit = False):
+
+        '''
+        The visualization of the exoplanet detection data for all methods combined.
         Args:
             df: the exoplanet dataframe to be visualized
+            remove_transit: boolean to remove transit method from visualization
         Returns:
-            None
+            None   
+        '''
 
+        if remove_transit:
+            group = self.df[self.df['discoverymethod'] != 'Transit'].groupby(['disc_year', 'discoverymethod']).size().unstack()
+        else:
+            group = self.df.groupby(['disc_year', 'discoverymethod']).size().unstack()
+
+        #plot bar chart
+        # ax = group11.plot(kind='bar', stacked=True, figsize=(12,6))#, color=['#bc5090','#90EE90'])#, hue_order=[1,0])
+        colors = ['#636EFA',  '#EF553B',  '#00CC96',  '#AB63FA',  '#FFA15A',  '#19D3F3',  '#FF6692',  '#B6E880',  '#FF97FF',  '#FECB52']
+
+        #plot bar chart
+        ax = group.plot(kind='bar', stacked=True, figsize=(12,6), color=colors)#['#90EE90'])#, hue_order=[1,0])
+
+
+        plt.xlabel('Discovery Year')
+        plt.ylabel('New Planets Discovered')
+        if remove_transit:
+            plt.title('Planet Discovery Method (Transit Removed)')
+        else:
+            plt.title('Planet Discovery Method')
+                     
+                    
+    def detection_vis_separate(self):
+        """   
         Given the dataframe of exoplanets, 
         break it down and visualize each detection category.
         Goes through different categories and for eachs, 
         calls a function to plot it versus year of discovery
+
+        Args:
+            df: the exoplanet dataframe to be visualized
+        Returns:
+            None
         """
 
         #column names in dataframe
@@ -69,14 +109,14 @@ class Detections:
             name = cat_names[idx]
             self.detection_plot_single(flag, name)
 
-            #so there is enough time for each category to be displayed on the screen
-            time.sleep(300)
             print(idx)
             
 
 
     def detection_plot_single(self, flag, name):
         """
+        Used to visualize individual, single columns of the detections dataset.
+
         Args:
             df: dataframe containing the detections dataset
             flag: the specific category of detections to visualize
@@ -84,11 +124,16 @@ class Detections:
 
         Returns:
             None
-
-        Used to visualize individual, single columns of the detections dataset.
         """
         
+        #group by year and flag, count number of planets detected
+
         group = self.df.groupby(['disc_year', flag]).size().unstack()
+        group = group.fillna(0)
+        group = group.astype(int)
+        group = group.rename(columns={0: "Not Detected", 1: "Detected"})
+        group = group.drop(columns=['Not Detected'])
+
 
         #colors to be used if plotting multiple flags together
         #this function only plots a single flag but kept for consistency
@@ -96,7 +141,7 @@ class Detections:
         colors = ['#636EFA',  '#EF553B',  '#00CC96',  '#AB63FA',  '#FFA15A',  '#19D3F3',  '#FF6692',  '#B6E880',  '#FF97FF',  '#FECB52']
 
         #plot bar chart
-        ax = group.plot(kind='bar', stacked=True, figsize=(12,6), color=colors)#['#90EE90'])#, hue_order=[1,0])
+        ax = group.plot(kind='bar', figsize=(12,6), color=colors)#['#90EE90'])#, hue_order=[1,0])
 
         plt.ylabel('Planets Detected')
         plt.xlabel('Discovery Year')

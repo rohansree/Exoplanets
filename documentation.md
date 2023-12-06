@@ -4,45 +4,64 @@
 
 ## modules.detections module
 
-### modules.detections.detection_plot_single(df, flag, name)
+### *class* modules.detections.Detections(df_location)
 
-@param df: dataframe containing the detections dataset
-@param flag: the specific category of detections to visualize
-@param name: the longform name of flag, to be used for plot title and legend
+Bases: `object`
 
-@return none
+The Detections class is a class that visualizes the exoplanet detection data.
+
+#### df
+
+the exoplanet dataframe to be visualized
+* **Type:**
+  DataFrame
+
+### Example
+
+A simple example of how to use this class is:
+
+```pycon
+from modules.Detections import Detections
+d = Detections('data/NASA_planetary_data.csv')
+d.detection_vis_combined()
+d.detection_vis_combined(remove_transit = True)
+d.detection_vis_separate()
+```
+
+#### \_\_init_\_(df_location)
+
+The constructor for Detections class.
+* **Parameters:**
+  **df_location** (*str*) – the location of the dataframe to be visualized
+
+#### detection_plot_single(flag, name)
 
 Used to visualize individual, single columns of the detections dataset.
+* **Parameters:**
+  * **df** – dataframe containing the detections dataset
+  * **flag** – the specific category of detections to visualize
+  * **name** – the longform name of flag, to be used for plot title and legend
+* **Returns:**
+  None
 
-### modules.detections.detection_vis(df)
+#### detection_vis_combined(remove_transit=False)
 
-@param df: the exoplanet dataframe to be visualized
-@return none
+The visualization of the exoplanet detection data for all methods combined.
+:param df: the exoplanet dataframe to be visualized
+:param remove_transit: boolean to remove transit method from visualization
+* **Returns:**
+  None
+
+#### detection_vis_separate()
 
 Given the dataframe of exoplanets,
 break it down and visualize each detection category.
 Goes through different categories and for eachs,
 calls a function to plot it versus year of discovery
-
-### modules.detections.read_data()
-
-Read and format dataframe from .csv file and call the visualization method,
-passing the formatted dataframe to it
-
-This function is separated because detections are only part of the dataset,
-and the csv will only need to be read once.
 * **Parameters:**
-  **None** – 
+  **df** – the exoplanet dataframe to be visualized
 * **Returns:**
   None
-
-### Examples
-
-A simple example of how to use this function is:
-
-```pycon
-read_data()
-```
 
 ## modules.planet_viz module
 
@@ -84,12 +103,13 @@ The constructor for Planet_Viz class.
   * **df_location** (*str*) – the location of the dataframe to be visualized
   * **theme** (*str*) – the theme of the visualization, default is ‘plotly_dark’
 
-#### equivolume_bins_histogram(rad_start: int = 400, vol: int = 20000000)
+#### equivolume_bins_histogram(rad_start: int = 400, vol: int = 20000000, max_dist: int = 1500)
 
 The equivolume bins histogram visualization of Planet_Viz class.
 * **Parameters:**
   * **rad_start** (*int*) – the starting radius from earth of the histogram, default is 400
   * **vol** (*int*) – the volume of each bin, default is 20000000
+  * **max_dist** (*int*) – the maximum distance from earth, default is 1500
 * **Returns:**
   The equivolume bins histogram figure of the dataframe
 * **Return type:**

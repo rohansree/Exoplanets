@@ -107,7 +107,6 @@ class Planet_Viz:
 
         radii_lst = [start]
         r_prev = radii_lst[-1]
-        print(max_dist)
         while r_prev < max_dist-1:
             radii_lst.append((vol+r_prev**3)**(1./3.))
             r_prev = radii_lst[-1]
