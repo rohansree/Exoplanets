@@ -20,7 +20,7 @@ class Detections:
     
 
     '''
-    def __init__(self, df_location):
+    def __init__(self, df_location : str):
         '''
         The constructor for Detections class.
 
@@ -31,7 +31,7 @@ class Detections:
         # df = pd.read_csv('NASA_planetary_data.csv', skiprows = 168)
 
 
-    def detection_vis_combined(self, remove_transit = False):
+    def detection_vis_combined(self, remove_transit : bool = False):
 
         '''
         The visualization of the exoplanet detection data for all methods combined.
@@ -113,7 +113,7 @@ class Detections:
             
 
 
-    def detection_plot_single(self, flag, name):
+    def detection_plot_single(self, flag : str , name : str ):
         """
         Used to visualize individual, single columns of the detections dataset.
 
@@ -156,3 +156,9 @@ class Detections:
         plt.title(title)
         plt.legend([leg])
         plt.show()
+
+if __name__ == "__main__":
+    d = Detections('data/NASA_planetary_data.csv')
+    d.detection_vis_combined()
+    d.detection_vis_combined(remove_transit = True)
+    d.detection_vis_separate()

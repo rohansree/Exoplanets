@@ -4,7 +4,7 @@
 
 ## modules.detections module
 
-### *class* modules.detections.Detections(df_location)
+### *class* modules.detections.Detections(df_location: str)
 
 Bases: `object`
 
@@ -28,13 +28,13 @@ d.detection_vis_combined(remove_transit = True)
 d.detection_vis_separate()
 ```
 
-#### \_\_init_\_(df_location)
+#### \_\_init_\_(df_location: str)
 
 The constructor for Detections class.
 * **Parameters:**
   **df_location** (*str*) – the location of the dataframe to be visualized
 
-#### detection_plot_single(flag, name)
+#### detection_plot_single(flag: str, name: str)
 
 Used to visualize individual, single columns of the detections dataset.
 * **Parameters:**
@@ -44,7 +44,7 @@ Used to visualize individual, single columns of the detections dataset.
 * **Returns:**
   None
 
-#### detection_vis_combined(remove_transit=False)
+#### detection_vis_combined(remove_transit: bool = False)
 
 The visualization of the exoplanet detection data for all methods combined.
 :param df: the exoplanet dataframe to be visualized
