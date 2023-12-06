@@ -1,7 +1,5 @@
 import pandas as pd
 import numpy as np
-from plotly.offline import plot, iplot, init_notebook_mode
-init_notebook_mode(connected=True)
 import plotly.express as px
 import plotly.graph_objects as go
 

@@ -39,7 +39,7 @@ class Detections:
             df (Datafrane): the exoplanet dataframe to be visualized
             remove_transit (bool): boolean to remove transit method from visualization
         Returns:
-            None   
+            plot (Plot): plot of the detections dataset for all methods combined  
         '''
 
         if remove_transit:
