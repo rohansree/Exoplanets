@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
-df = pd.read_csv("data/NASA_planetary_data.csv", index_col = 'rowid')
+df = pd.read_csv(".../planetary_data.csv", index_col = 'rowid')
 
 df.dropna(subset = ['pl_orbper'], axis = 0, how = 'any', inplace = True)
 
@@ -17,19 +17,30 @@ df_y = df['pl_dens'] # target variable
 
 df_x_train, df_x_test, df_y_train, df_y_test = train_test_split(df_x, df_y, test_size = 0.2, random_state = 0)
 
+def fill_w_mean(df, col):
+    '''This function replaces the null values of a column with the sample mean  
+    args:
+        df --> the dataframe to be referenced
+        col --> the feature to work on'''
+    df[col] = df[col].fillna(df[col].mean())
+def fill_w_median(df, col):
+    '''This function replaces the null values of a column with the median  
+    args:
+        df --> the dataframe to be referenced
+        col --> the feature to work on'''
+    df[col] = df[col].fillna(df[col].median())  
 
-df_x_train['pl_orbeccen'] = df_x_train['pl_orbeccen'].fillna(df_x_train['pl_orbeccen'].mean()) # filling null values with appropriate substitutes
-df_x_train['pl_trandep'] = df_x_train['pl_trandep'].fillna(df_x_train['pl_trandep'].median())
-df_x_train['pl_orbsmax'] = df_x_train['pl_orbsmax'].fillna(df_x_train['pl_orbsmax'].median())
-df_x_train['st_radv'] = df_x_train['st_radv'].fillna(df_x_train['st_radv'].mean())
-df_x_train['st_vsin'] = df_x_train['st_vsin'].fillna(df_x_train['st_vsin'].median())
+fill_w_mean(df_x_train, 'pl_orbeccen')
+fill_w_median(df_x_train, 'pl_trandep')
+fill_w_median(df_x_train, 'pl_orbsmax')
+fill_w_mean(df_x_train, 'st_radv')
+fill_w_mean(df_x_train, 'st_vsin')
 
-
-df_x_test['pl_orbeccen'] = df_x_test['pl_orbeccen'].fillna(df_x_test['pl_orbeccen'].mean())
-df_x_test['pl_trandep'] = df_x_test['pl_trandep'].fillna(df_x_test['pl_trandep'].median())
-df_x_test['pl_orbsmax'] = df_x_test['pl_orbsmax'].fillna(df_x_test['pl_orbsmax'].median())
-df_x_test['st_radv'] = df_x_test['st_radv'].fillna(df_x_test['st_radv'].mean())
-df_x_test['st_vsin'] = df_x_test['st_vsin'].fillna(df_x_test['st_vsin'].median())
+fill_w_mean(df_x_test, 'pl_orbeccen')
+fill_w_median(df_x_test, 'pl_trandep')
+fill_w_median(df_x_test, 'pl_orbsmax')
+fill_w_mean(df_x_test, 'st_radv')
+fill_w_mean(df_x_test, 'st_vsin')
 
 df_y_train = df_y_train.fillna(df_y_train.median())
 df_y_test = df_y_test.fillna(df_y_test.median())
@@ -75,6 +86,8 @@ models = ['Linear Regression', 'Random Forest', 'XGBoost']
 mse_values = [mse_lr, mse_rf, mse_xgb]
 x_values = np.arange(len(models))
 
+
+
 plt.bar(x_values-0.2, [mse_lr, 0, 0], width = 0.2, color = 'blue', label = 'Linear Regression')
 plt.bar(x_values, [0, mse_rf, 0], width = 0.2, color='orange', label='Random Forest')
 plt.bar(x_values+0.2, [0, 0, mse_xgb], width = 0.2, color='green', label='XGBoost')
@@ -87,11 +100,15 @@ plt.tight_layout()
 plt.savefig('model_comp.png')
 plt.show()
 
+
+
 ft_ls = ['orbital period', 'orbital semi-major axis', 'orbital eccentricity',
          'radial velocity', 'transit depth', 'system rotational vel.']
 
 feature_names_rf = rf_model.feature_importances_ # getting feature importance according to random forest
 feature_names_xgb = xgb_model.feature_importances_ # feature importance according to XGBoost
+
+
 
 plt.bar(range(len(feature_names_rf)), feature_names_rf)
 plt.xticks(range(len(feature_names_rf)), ft_ls, rotation = -90)
@@ -102,6 +119,8 @@ plt.tight_layout()
 plt.savefig('rf_feature_importance plot.jpeg')
 plt.show()
 
+
+
 plt.bar(range(len(feature_names_xgb)), feature_names_xgb)
 plt.xticks(range(len(feature_names_xgb)), ft_ls, rotation = -90)
 plt.ylabel('Feature Importance')
@@ -111,10 +130,11 @@ plt.tight_layout()
 plt.savefig('xgb_feature_importance plot.jpeg')
 plt.show()
 
+
+
 n = 6
 r = np.arange(n)
 width = 0.25
-
 bar1 = plt.bar(r, feature_names_rf, color = 'w',
                width = width)
 bar2 = plt.bar(r+width, feature_names_xgb, color = 'r',
