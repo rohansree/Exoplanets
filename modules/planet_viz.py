@@ -55,7 +55,7 @@ class Planet_Viz:
             dist_limit (int): the distance limit of the visualization, default is 1000
 
         Returns:
-            fig: The interactive figure of the dataframe
+            fig (go.Figure): The interactive figure of the dataframe
         
         '''
 
@@ -92,7 +92,7 @@ class Planet_Viz:
         #plotly figure
         fig = px.scatter_3d(df_new, x='x', y='y', z='z', color='disc_year', hover_name='pl_name', hover_data = {k : k in ['x', 'y', 'z'] for k in df_new.columns}, animation_frame= 'cum_year',color_discrete_map=color_map, range_x=[-dist_limit, dist_limit], range_y = [-dist_limit, dist_limit], range_z = [-dist_limit, dist_limit], labels={'disc_year':'Discovery Year', 'cum_year':'Planets Discovered Till'}, template = self.theme)
         fig.update_scenes(aspectmode='cube')
-        fig.show()
+        return fig
 
     def __calc_radii_lst(self, max_dist : int = 1500, vol : int = 20000000, start : int = 0):
         ''' 
@@ -124,7 +124,7 @@ class Planet_Viz:
             max_dist (int): the maximum distance from earth, default is 1500
 
         Returns:
-            fig: The equivolume bins histogram figure of the dataframe
+            fig (go.Figure): The equivolume bins histogram figure of the dataframe
         '''
         assert rad_start > 0, "rad_start must be greater than 0"
         assert vol > 0, "vol must be greater than 0"
@@ -145,7 +145,7 @@ class Planet_Viz:
         fig = go.Figure(go.Bar(x=bins2,y=counts,width=widths))\
             .update_layout(title = 'Histogram of Exoplanets Discovered for Equivolume Bins', xaxis_title = "Distance from Earth (parsec)",  yaxis_title = "Number of Planets", template = self.theme)
 
-        fig.show()
+        return fig
 
     
     def planet_yr_method_dist(self):
@@ -153,7 +153,7 @@ class Planet_Viz:
         The planet year method distance visualization of Planet_Viz class.
 
         Returns:
-            fig: The planet year method distance figure of the dataframe
+            fig (go.Figure): The planet year method distance figure of the dataframe
 
         '''
         fig = px.scatter(self.df_loc, y = 'sy_dist', x='disc_year', color='discoverymethod', labels={
@@ -161,7 +161,7 @@ class Planet_Viz:
                      "disc_year": "Discovered Year",
                      "discoverymethod": "Method of Discovery"
                  }, template = self.theme, title='Distance from Earth vs. Discovered Year by Method of Discovery')
-        fig.show()
+        return fig
 
     def planet_yr_method_hist(self, cumulative : bool = True):
 
@@ -172,13 +172,13 @@ class Planet_Viz:
             cumulative (bool): whether the histogram is cumulative or not, default is True
         
         Returns:
-            fig: The planet year method histogram figure of the dataframe
+            fig (go.Figure): The planet year method histogram figure of the dataframe
         '''
         fig = px.histogram(self.df_loc, x='disc_year', cumulative=cumulative, color = 'discoverymethod', labels={
                      "disc_year": "Discovered Year",
                      "discoverymethod": "Method of Discovery"
                  }, template = 'plotly_dark', title=f'Histogram of Planet Counts by Year with Discovery Method (Cumulative = {cumulative})').update_layout(yaxis_title = "Number of Planets")
-        fig.show()
+        return fig
 
 
 if __name__ == "__main__":

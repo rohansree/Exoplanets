@@ -36,8 +36,8 @@ class Detections:
         '''
         The visualization of the exoplanet detection data for all methods combined.
         Args:
-            df: the exoplanet dataframe to be visualized
-            remove_transit: boolean to remove transit method from visualization
+            df (Datafrane): the exoplanet dataframe to be visualized
+            remove_transit (bool): boolean to remove transit method from visualization
         Returns:
             None   
         '''
@@ -61,6 +61,8 @@ class Detections:
             plt.title('Planet Discovery Method (Transit Removed)')
         else:
             plt.title('Planet Discovery Method')
+
+        return plt
                      
                     
     def detection_vis_separate(self):
@@ -71,9 +73,9 @@ class Detections:
         calls a function to plot it versus year of discovery
 
         Args:
-            df: the exoplanet dataframe to be visualized
+            df (Dataframe): the exoplanet dataframe to be visualized
         Returns:
-            None
+            plot_list (List[Plot]): list of plots, one for each category
         """
 
         #column names in dataframe
@@ -104,10 +106,12 @@ class Detections:
 
         
         #go through every flag in the detections category
+        plot_list = []
         for idx, flag in enumerate(cat_flags):
 
             name = cat_names[idx]
-            self.detection_plot_single(flag, name)
+            plot_list.append(self.detection_plot_single(flag, name))
+        return plot_list
             
 
 
@@ -116,12 +120,12 @@ class Detections:
         Used to visualize individual, single columns of the detections dataset.
 
         Args:
-            df: dataframe containing the detections dataset
-            flag: the specific category of detections to visualize
-            name: the longform name of flag, to be used for plot title and legend
+            df (Dataframe): dataframe containing the detections dataset
+            flag (str): the specific category of detections to visualize
+            name (str): the longform name of flag, to be used for plot title and legend
 
         Returns:
-            None
+            plot (Plot): plot of the detections dataset for the given flag
         """
         
         #group by year and flag, count number of planets detected
@@ -153,7 +157,7 @@ class Detections:
         
         plt.title(title)
         plt.legend([leg])
-        plt.show()
+        return plt
 
 if __name__ == "__main__":
     d = Detections('data/NASA_planetary_data.csv')
