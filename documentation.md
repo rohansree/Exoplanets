@@ -38,17 +38,21 @@ The constructor for Detections class.
 
 Used to visualize individual, single columns of the detections dataset.
 * **Parameters:**
-  * **df** – dataframe containing the detections dataset
-  * **flag** – the specific category of detections to visualize
-  * **name** – the longform name of flag, to be used for plot title and legend
+  * **df** (*Dataframe*) – dataframe containing the detections dataset
+  * **flag** (*str*) – the specific category of detections to visualize
+  * **name** (*str*) – the longform name of flag, to be used for plot title and legend
 * **Returns:**
-  None
+  plot of the detections dataset for the given flag
+* **Return type:**
+  plot (Plot)
 
 #### detection_vis_combined(remove_transit: bool = False)
 
 The visualization of the exoplanet detection data for all methods combined.
 :param df: the exoplanet dataframe to be visualized
+:type df: Datafrane
 :param remove_transit: boolean to remove transit method from visualization
+:type remove_transit: bool
 * **Returns:**
   None
 
@@ -59,9 +63,13 @@ break it down and visualize each detection category.
 Goes through different categories and for eachs,
 calls a function to plot it versus year of discovery
 * **Parameters:**
-  **df** – the exoplanet dataframe to be visualized
+  **df** (*Dataframe*) – the exoplanet dataframe to be visualized
 * **Returns:**
-  None
+  list of plots, one for each category
+* **Return type:**
+  plot_list (List[Plot])
+
+## modules.model module
 
 ## modules.planet_viz module
 
@@ -113,7 +121,7 @@ The equivolume bins histogram visualization of Planet_Viz class.
 * **Returns:**
   The equivolume bins histogram figure of the dataframe
 * **Return type:**
-  fig
+  fig (go.Figure)
 
 #### interative_planet_viz(dist_limit: int = 1000)
 
@@ -123,7 +131,7 @@ The interactive visualization of Planet_Viz class.
 * **Returns:**
   The interactive figure of the dataframe
 * **Return type:**
-  fig
+  fig (go.Figure)
 
 #### planet_yr_method_dist()
 
@@ -131,7 +139,7 @@ The planet year method distance visualization of Planet_Viz class.
 * **Returns:**
   The planet year method distance figure of the dataframe
 * **Return type:**
-  fig
+  fig (go.Figure)
 
 #### planet_yr_method_hist(cumulative: bool = True)
 
@@ -141,4 +149,4 @@ The planet year method histogram visualization of Planet_Viz class.
 * **Returns:**
   The planet year method histogram figure of the dataframe
 * **Return type:**
-  fig
+  fig (go.Figure)

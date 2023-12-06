@@ -8,7 +8,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from xgboost import XGBRegressor
 
-df = pd.read_csv(".../planetary_data.csv", index_col = 'rowid')
+df = pd.read_csv("data/NASA_planetary_data.csv", index_col = 'rowid')
 
 df.dropna(subset = ['pl_orbper'], axis = 0, how = 'any', inplace = True)
 
