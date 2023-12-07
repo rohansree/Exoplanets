@@ -108,8 +108,6 @@ Function to plot the scatter plot of the year and locale of the discovery
 * **Return type:**
   fig
 
-## modules.model module
-
 ## modules.planet_viz module
 
 ### *class* modules.planet_viz.Planet_Viz(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
@@ -254,3 +252,152 @@ The planet year method histogram visualization of Planet_Viz class.
   The planet year method histogram figure of the dataframe
 * **Return type:**
   fig (go.Figure)
+
+## modules.pred_model module
+
+### *class* modules.pred_model.Model
+
+Bases: `object`
+
+This class contains the Linear Regression, Random Forest, and XGBoost models.
+
+#### lr_model
+
+Linear Regression model.
+* **Type:**
+  LinearRegression
+
+#### rf_model
+
+Random Forest model.
+* **Type:**
+  RandomForestRegressor
+
+#### xgb_model
+
+XGBoost model.
+* **Type:**
+  XGBRegressor
+
+### Examples
+
+```pycon
+from pred_model import Model
+model = Model()
+lr_model, rf_model, xgb_model = model.train(df_x_train_norm, df_y_train_norm)
+y_pred_lr, y_pred_rf, y_pred_xgb = model.predict(df_x_test_norm)
+mse = model.calculate_mse(df_y_test_norm, (y_pred_lr + y_pred_rf + y_pred_xgb) / 3)
+```
+
+#### \_\_init_\_()
+
+Initialize the Model class with Linear Regression, Random Forest, and XGBoost models.
+
+#### calculate_mse(df_y_test_norm, y_pred_lr, y_pred_rf, y_pred_xgb)
+
+Calculate the Mean Squared Error.
+* **Parameters:**
+  * **df_y_test_norm** (*pd.DataFrame*) – Normalized test target variable.
+  * **y_pred_lr** (*np.ndarray*) – Predictions for Linear Regression model.
+  * **y_pred_rf** (*np.ndarray*) – Predictions for Random Forest model.
+  * **y_pred_xgb** (*np.ndarray*) – Predictions for XGBoost model.
+* **Returns:**
+  Mean Squared Error.
+* **Return type:**
+  float
+
+#### predict(df_x_test_norm)
+
+Make predictions using the trained models.
+* **Parameters:**
+  **df_x_test_norm** (*pd.DataFrame*) – Normalized test features.
+* **Returns:**
+  Predictions for Linear Regression, Random Forest, and XGBoost models.
+* **Return type:**
+  Tuple[np.ndarray, np.ndarray, np.ndarray]
+
+#### train(df_x_train_norm, df_y_train_norm)
+
+Train Linear Regression, Random Forest, and XGBoost models.
+* **Parameters:**
+  * **df_x_train_norm** (*pd.DataFrame*) – Normalized training features.
+  * **df_y_train_norm** (*pd.DataFrame*) – Normalized training target variable.
+* **Returns:**
+  Trained models.
+* **Return type:**
+  Tuple[LinearRegression, RandomForestRegressor, XGBRegressor]
+
+### *class* modules.pred_model.Visualizer(ft_ls, theme='dark')
+
+Bases: `object`
+
+This class contains the visualizations for the Mean Squared Error comparison, feature importance for Random Forest,
+feature importance for XGBoost, and feature importance comparison between Random Forest and XGBoost.
+
+#### ft_ls
+
+List of feature names.
+* **Type:**
+  list
+
+### Examples
+
+```pycon
+from pred_model import Visualizer
+ft_ls = ['orbital period', 'orbital semi-major axis', 'orbital eccentricity',
+                'radial velocity', 'transit depth', 'system rotational vel.']
+visualizer = Visualizer(ft_ls)
+visualizer.visualize_mse_comparison(mse_lr, mse_rf, mse_xgb)
+visualizer.visualize_feature_importance_rf(feature_names_rf)
+visualizer.visualize_feature_importance_xgb(feature_names_xgb)
+visualizer.visualize_model_comparison(feature_names_rf, feature_names_xgb)
+```
+
+#### \_\_init_\_(ft_ls, theme='dark')
+
+Initialize the Visualizer class with a list of feature names.
+* **Parameters:**
+  **ft_ls** (*list*) – List of feature names.
+
+#### visualize_feature_importance_rf(feature_names_rf)
+
+Visualize feature importance for Random Forest.
+* **Parameters:**
+  **feature_names_rf** (*np.ndarray*) – Feature importances for Random Forest.
+* **Returns:**
+  Plot of feature importance for Random Forest.
+* **Return type:**
+  plt
+
+#### visualize_feature_importance_xgb(feature_names_xgb)
+
+Visualize feature importance for XGBoost.
+* **Parameters:**
+  **feature_names_xgb** (*np.ndarray*) – Feature importances for XGBoost.
+* **Returns:**
+  Plot of feature importance for XGBoost.
+* **Return type:**
+  plt
+
+#### visualize_model_comparison(feature_names_rf, feature_names_xgb)
+
+Visualize feature importance comparison between Random Forest and XGBoost.
+* **Parameters:**
+  * **feature_names_rf** (*np.ndarray*) – Feature importances for Random Forest.
+  * **feature_names_xgb** (*np.ndarray*) – Feature importances for XGBoost.
+* **Returns:**
+  Plot of feature importance comparison between Random Forest and XGBoost.
+* **Return type:**
+  plt
+
+#### visualize_mse_comparison(mse_lr, mse_rf, mse_xgb)
+
+Visualize Mean Squared Error comparison among different models.
+* **Parameters:**
+  * **mse_lr** (*float*) – Mean Squared Error for Linear Regression.
+  * **mse_rf** (*float*) – Mean Squared Error for Random Forest.
+  * **mse_xgb** (*float*) – Mean Squared Error for XGBoost.
+* **Returns:**
+  Plot of Mean Squared Error comparison among different models.
+* **Return type:**
+  plt

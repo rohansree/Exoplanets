@@ -27,7 +27,7 @@ The notebook can't show all the graphs in default github viewer. You can view al
  ┃ ┗ 📜NASA_planetary_data.csv
  ┣ 📂modules
  ┃ ┣ 📜discovery_viz.py
- ┃ ┣ 📜model.py
+ ┃ ┣ 📜pred_model.py
  ┃ ┗ 📜planet_viz.py
  ┣ 📂plotly_plots
  ┃ ┗ Contains all the plotly images
@@ -37,7 +37,6 @@ The notebook can't show all the graphs in default github viewer. You can view al
  ┣ 📜README.md
  ┣ 📜requirements.txt
  ┗ 📜Study_of_Exoplanets_Group_18.pdf
-
  ```
 
 ## How to run 🧑‍💻
@@ -53,7 +52,6 @@ All the modules are given in [`requirements.txt`](requirements.txt) and listed b
 ```
 geopy==2.4.1
 matplotlib==3.7.1
-numpy==1.24.1
 numpy==1.24.2
 pandas==2.0.0
 plotly==5.18.0
