@@ -3,6 +3,8 @@ As part of the ECE 143 Fall 2023 final assignment, we have performed Exploratory
 
 We have attached an additional [documentation](documentation.md) for all the modules which we have developed for the parsing, visualising and training predictive models.
 
+[Our Presentation](Study_of_Exoplanets_Group_18.pdf)
+
 ### Group Members
 
 * Anand Kumar
@@ -14,9 +16,11 @@ We have attached an additional [documentation](documentation.md) for all the mod
 ### Disclaimer ⚠️
 The notebook can't show all the graphs in default github viewer. You can view all the images properly in [NBViewer](https://nbviewer.org/github/rohansree/Exoplanets/blob/main/Exoplanets_Viz.ipynb)
 <br>
+
 <b>Recommended</b>: Setup locally to view the interactive plotly plots.
 
 ## File Structure 📂
+
 ```
 📦Exoplanets
  ┣ 📂data
