@@ -10,15 +10,87 @@ Bases: `object`
 
 Class to visualize the discovery data
 
+#### df
+
+the dataframe to be visualized
+* **Type:**
+  pd.DataFrame
+
+#### theme
+
+the theme of the visualization, default is ‘plotly_dark’
+* **Type:**
+  str
+
+#### colors
+
+the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+* **Type:**
+  list[str]
+
+### Examples
+
+Sample usage of Discovery_Viz class:
+
+```pycon
+from modules.discovery_viz import Discovery_Viz
+discovery_viz = Discovery_Viz('data/NASA_planetary_data.csv')
+discovery_viz.plot_telescope_pie()
+discovery_viz.ground_discovery_map()
+discovery_viz.discovery_facility_hist()
+discovery_viz.year_locale_scatter()
+discovery_viz.locale_hist()
+discovery_viz.locale_hist('telescope')
+discovery_viz.locale_hist('instrument')
+```
+
 #### \_\_init_\_(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
 
 The constructor for Discovery_Viz class.
 * **Parameters:**
   * **df_location** (*str*) – the location of the dataframe to be visualized
   * **theme** (*str*) – the theme of the visualization, default is ‘plotly_dark’
-  * **colors** (*List**[**str**]*) – the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+  * **colors** (*list**[**str**]*) – the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+* **Returns:**
+  None
 
-#### *static* get_coordinates(location_name)
+#### discovery_facility_hist(count_limit: int = 50)
+
+Function to plot the histogram of the discovery facilities
+* **Parameters:**
+  **count_limit** (*int*) – the count limit of the discovery facilities, default is 50
+* **Returns:**
+  the histogram of the discovery facilities
+* **Return type:**
+  fig
+
+#### *static* get_coordinates(location_name: str)
+
+Function to get the coordinates of a location
+* **Parameters:**
+  **location_name** (*str*) – the name of the location
+* **Returns:**
+  the latitude and longitude of the location
+* **Return type:**
+  tuple
+
+#### ground_discovery_map()
+
+Function to plot the map of the discovery facilities on the ground
+* **Returns:**
+  the map of the discovery facilities on the ground
+* **Return type:**
+  fig
+
+#### locale_hist(color_select: str = 'locale')
+
+Function to plot the histogram of the discovery method and locale
+* **Parameters:**
+  **color_select** (*str*) – the color selection and it can have the values [‘locale’, ‘telescope’, ‘instrument’], default is ‘locale’
+* **Returns:**
+  the histogram of the discovery method and locale
+* **Return type:**
+  fig
 
 #### plot_telescope_pie()
 
@@ -27,6 +99,14 @@ Function to plot the pie chart of the distribution of telescopes
   the pie chart of the distribution of telescopes
 * **Return type:**
   plt
+
+#### year_locale_scatter()
+
+Function to plot the scatter plot of the year and locale of the discovery
+* **Returns:**
+  the scatter plot of the year and locale of the discovery
+* **Return type:**
+  fig
 
 ## modules.model module
 

@@ -325,3 +325,7 @@ if __name__ == "__main__":
     pv.equivolume_bins_histogram()
     pv.planet_yr_method_dist()
     pv.planet_yr_method_hist()
+    pv.detection_vis_combined()
+    pv.detection_vis_combined(remove_transit = True)
+    pv.detection_vis_separate()
+    
