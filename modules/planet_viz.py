@@ -105,7 +105,8 @@ class Planet_Viz:
         fig.update_scenes(aspectmode='cube')
         return fig
 
-    def __calc_radii_lst(self, max_dist : int = 1500, vol : int = 20000000, start : int = 0):
+    @staticmethod
+    def calc_radii_lst(max_dist : int = 1500, vol : int = 20000000, start : int = 0):
         ''' 
         Helper function for equivolume_bins_histogram
 

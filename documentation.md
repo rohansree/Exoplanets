@@ -2,13 +2,41 @@
 
 ## Submodules
 
-## modules.detections module
+## modules.discovery_viz module
 
-### *class* modules.detections.Detections(df_location: str)
+### *class* modules.discovery_viz.Discovery_Viz(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
 
 Bases: `object`
 
-The Detections class is a class that visualizes the exoplanet detection data.
+Class to visualize the discovery data
+
+#### \_\_init_\_(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
+
+The constructor for Discovery_Viz class.
+* **Parameters:**
+  * **df_location** (*str*) – the location of the dataframe to be visualized
+  * **theme** (*str*) – the theme of the visualization, default is ‘plotly_dark’
+  * **colors** (*List**[**str**]*) – the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+
+#### *static* get_coordinates(location_name)
+
+#### plot_telescope_pie()
+
+Function to plot the pie chart of the distribution of telescopes
+* **Returns:**
+  the pie chart of the distribution of telescopes
+* **Return type:**
+  plt
+
+## modules.model module
+
+## modules.planet_viz module
+
+### *class* modules.planet_viz.Planet_Viz(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
+
+Bases: `object`
+
+The Planet_Viz class is a class that visualizes the exoplanet dataframe.
 
 #### df
 
@@ -16,23 +44,59 @@ the exoplanet dataframe to be visualized
 * **Type:**
   DataFrame
 
+#### df_loc
+
+the exoplanet dataframe to be visualized with only the location data
+* **Type:**
+  DataFrame
+
+#### theme
+
+the theme of the visualization, default is ‘plotly_dark’
+* **Type:**
+  str
+
+#### colors
+
+the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+* **Type:**
+  List[str]
+
 ### Example
 
 A simple example of how to use this class is:
 
 ```pycon
-from modules.Detections import Detections
-d = Detections('data/NASA_planetary_data.csv')
-d.detection_vis_combined()
-d.detection_vis_combined(remove_transit = True)
-d.detection_vis_separate()
+from modules.planet_viz import Planet_Viz
+pv = Planet_Viz('data/NASA_planetary_data.csv')
+pv.interative_planet_viz()
+pv.equivolume_bins_histogram()
+pv.planet_yr_method_dist()
+pv.planet_yr_method_hist()
+pv.detection_vis_combined()
+pv.detection_vis_combined(remove_transit = True)
+pv.detection_vis_separate()
 ```
 
-#### \_\_init_\_(df_location: str)
+#### \_\_init_\_(df_location: str, theme: str = 'plotly_dark', colors: list[str] = ['#636EFA', '#EF553B', '#00CC96', '#AB63FA', '#FFA15A', '#19D3F3', '#FF6692', '#B6E880', '#FF97FF', '#FECB52'])
 
-The constructor for Detections class.
+The constructor for Planet_Viz class.
 * **Parameters:**
-  **df_location** (*str*) – the location of the dataframe to be visualized
+  * **df_location** (*str*) – the location of the dataframe to be visualized
+  * **theme** (*str*) – the theme of the visualization, default is ‘plotly_dark’
+  * **colors** (*List**[**str**]*) – the list of colors for the visualization, default is [‘#636EFA’,  ‘#EF553B’,  ‘#00CC96’,  ‘#AB63FA’,  ‘#FFA15A’,  ‘#19D3F3’,  ‘#FF6692’,  ‘#B6E880’,  ‘#FF97FF’, ‘#FECB52’]
+
+#### *static* calc_radii_lst(max_dist: int = 1500, vol: int = 20000000, start: int = 0)
+
+Helper function for equivolume_bins_histogram
+* **Parameters:**
+  * **max_dist** (*int*) – the maximum distance from earth
+  * **vol** (*int*) – the volume of each bin
+  * **start** (*int*) – the starting radius from earth of the histogram
+* **Returns:**
+  A list of radii with adjacent pairs having a volume of vol
+* **Return type:**
+  radii_lst (list)
 
 #### detection_plot_single(flag: str, name: str)
 
@@ -54,7 +118,9 @@ The visualization of the exoplanet detection data for all methods combined.
 :param remove_transit: boolean to remove transit method from visualization
 :type remove_transit: bool
 * **Returns:**
-  None
+  plot of the detections dataset for all methods combined
+* **Return type:**
+  plot (Plot)
 
 #### detection_vis_separate()
 
@@ -68,48 +134,6 @@ calls a function to plot it versus year of discovery
   list of plots, one for each category
 * **Return type:**
   plot_list (List[Plot])
-
-## modules.model module
-
-## modules.planet_viz module
-
-### *class* modules.planet_viz.Planet_Viz(df_location: str, theme: str = 'plotly_dark')
-
-Bases: `object`
-
-The Planet_Viz class is a class that visualizes the exoplanet dataframe.
-
-#### df_loc
-
-the exoplanet dataframe to be visualized
-* **Type:**
-  DataFrame
-
-#### theme
-
-the theme of the visualization, default is ‘plotly_dark’
-* **Type:**
-  str
-
-### Example
-
-A simple example of how to use this class is:
-
-```pycon
-from modules.planet_viz import Planet_Viz
-pv = Planet_Viz('data/NASA_planetary_data.csv')
-pv.interative_planet_viz()
-pv.equivolume_bins_histogram()
-pv.planet_yr_method_dist()
-pv.planet_yr_method_hist()
-```
-
-#### \_\_init_\_(df_location: str, theme: str = 'plotly_dark')
-
-The constructor for Planet_Viz class.
-* **Parameters:**
-  * **df_location** (*str*) – the location of the dataframe to be visualized
-  * **theme** (*str*) – the theme of the visualization, default is ‘plotly_dark’
 
 #### equivolume_bins_histogram(rad_start: int = 400, vol: int = 20000000, max_dist: int = 1500)
 
