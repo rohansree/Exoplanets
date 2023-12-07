@@ -30,7 +30,7 @@ The notebook can't show all the graphs in default github viewer. You can view al
  ┃ ┣ 📜pred_model.py
  ┃ ┗ 📜planet_viz.py
  ┣ 📂plotly_plots
- ┃ ┗ Contains all the plotly images
+ ┃ ┗ 🖼️Contains all the plotly images
  ┣ 📜documentation.md
  ┣ 📜Exoplanets_Viz.ipynb
  ┣ 📜Methods, Telescopes and Instruments.ipynb
